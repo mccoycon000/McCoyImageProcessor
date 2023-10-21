@@ -13,6 +13,13 @@
 */
 Image* image_create(struct Pixel** pArr, int width, int height){
 
+    Image* newImage = (Image*)malloc(sizeof(Image));
+
+    newImage->pArr = pArr;
+    newImage->width = width;
+    newImage->height = height;
+
+    return newImage;
 }
 /* Destroys an image. Does not deallocate internal pixel array.
 *
@@ -20,6 +27,8 @@ Image* image_create(struct Pixel** pArr, int width, int height){
 */
 void image_destroy(Image** img){
 
+    free(img);
+    img = NULL;
 }
 /* Returns a double pointer to the pixel array.
 *
@@ -27,6 +36,7 @@ void image_destroy(Image** img){
 */
 struct Pixel** image_get_pixels(Image* img){
 
+    return img->pArr;
 }
 /* Returns the width of the image.
 *
@@ -34,6 +44,7 @@ struct Pixel** image_get_pixels(Image* img){
 */
 int image_get_width(Image* img){
 
+    return img->width;
 }
 /* Returns the height of the image.
 *
@@ -41,6 +52,7 @@ int image_get_width(Image* img){
 */
 int image_get_height(Image* img){
 
+    return img->height;
 }
 /* Converts the image to grayscale.
 *
