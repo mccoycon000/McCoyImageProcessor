@@ -118,5 +118,14 @@ void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
 * @param height: Height of the pixel array of this image
 */
 void writePixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
-
+    for(int i = 0; i < height; i++){
+        for(int j = 0; j < width; j++){
+            fwrite(&pArr[i][j].b, sizeof(char), 1, file);
+            fwrite(&pArr[i][j].g, sizeof(char), 1, file);
+            fwrite(&pArr[i][j].r, sizeof(char), 1, file);
+        }
+        for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
+            fwrite(0, sizeof(char ), 1, file);
+        }
+    }
 }
