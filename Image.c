@@ -132,7 +132,7 @@ void image_apply_resize(Image* img, float factor){
 
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
-            pixels[i][j] = img->pArr[(int)(i/factor)][(int)(j/factor)];
+            pixels[i][j] = img->pArr[(int)(i/factor)][(int)(j/factor)]; //Just divide
         }
     }
 
