@@ -27,7 +27,7 @@ int main() {
     //START - HEADER FUNCTIONALITY MINIMAL EXAMPLE (DO NOT SUBMIT)
     struct BMP_Header BMP;
     struct DIB_Header DIB;
-    FILE* file_input = fopen("ttt.bmp", "rb");
+    FILE* file_input = fopen("ttt-1.bmp", "rb");
     readBMPHeader(file_input, &BMP);
     readDIBHeader(file_input, &DIB);
     struct Pixel** pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * 152);
@@ -37,7 +37,8 @@ int main() {
     readPixelsBMP(file_input, pixels, 152, 152);
     fclose(file_input);
     Image* img = image_create(pixels, 152, 152);
-    image_apply_colorshift(img, 0, 0, 40);
+    image_apply_colorshift(img, 56, 0, 0);
+    //image_apply_bw(img);
     FILE* file_output = fopen("ttt_usagesample.bmp", "wb");
     writeBMPHeader(file_output, &BMP);
     writeDIBHeader(file_output, &DIB);

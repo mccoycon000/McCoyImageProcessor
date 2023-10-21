@@ -18,9 +18,9 @@ struct Image {
     int height;
 };
 struct Pixel{
-    char b;
-    char g;
-    char r;
+    unsigned char b;
+    unsigned char g;
+    unsigned char r;
 };
 ////////////////////////////////////////////////////////////////////////////////
 //Function Declarations

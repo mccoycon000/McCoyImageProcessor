@@ -100,12 +100,12 @@ void makeDIBHeader(struct DIB_Header* header, int width, int height){
 void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            fread(&pArr[i][j].b, sizeof(char), 1, file);
-            fread(&pArr[i][j].g, sizeof(char), 1, file);
-            fread(&pArr[i][j].r, sizeof(char), 1, file);
+            fread(&pArr[i][j].b, sizeof(unsigned char), 1, file);
+            fread(&pArr[i][j].g, sizeof(unsigned char), 1, file);
+            fread(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
         for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
-            fseek(file, sizeof(char), SEEK_CUR);
+            fseek(file, sizeof(unsigned char), SEEK_CUR);
         }
     }
 }
@@ -118,14 +118,15 @@ void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
 * @param height: Height of the pixel array of this image
 */
 void writePixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
+    char* zero = 0;
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            fwrite(&pArr[i][j].b, sizeof(char), 1, file);
-            fwrite(&pArr[i][j].g, sizeof(char), 1, file);
-            fwrite(&pArr[i][j].r, sizeof(char), 1, file);
+            fwrite(&pArr[i][j].b, sizeof(unsigned char), 1, file);
+            fwrite(&pArr[i][j].g, sizeof(unsigned char), 1, file);
+            fwrite(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
         for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
-            fwrite(0, sizeof(char ), 1, file);
+            fwrite(zero, sizeof(char ), 1, file);
         }
     }
 }
