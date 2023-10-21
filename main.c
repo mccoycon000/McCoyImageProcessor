@@ -39,6 +39,11 @@ int main() {
     Image* img = image_create(pixels, 152, 152);
     image_apply_colorshift(img, 56, 0, 0);
     //image_apply_bw(img);
+
+    image_apply_resize(img, 0.5);
+    makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
+    makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
+
     FILE* file_output = fopen("ttt_usagesample.bmp", "wb");
     writeBMPHeader(file_output, &BMP);
     writeDIBHeader(file_output, &DIB);
