@@ -118,8 +118,8 @@ image will be
 */
 void image_apply_resize(Image* img, float factor){
 
-    int newWidth = img->width * factor;
-    int newHeight = img->height * factor;
+    int newWidth = (int)((float)img->width * factor);
+    int newHeight = (int)((float)img->height * factor);
 
     struct Pixel** pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * newHeight);
     for (int p = 0; p < newWidth; p++) {
@@ -133,7 +133,7 @@ void image_apply_resize(Image* img, float factor){
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
 
-            pixels[i][j] = img->pArr[(int)(i/factor)][(int)(j/factor)]; //Just divide
+            pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
         }
     }
 

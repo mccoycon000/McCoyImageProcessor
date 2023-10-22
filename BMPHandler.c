@@ -108,8 +108,10 @@ void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
             fread(&pArr[i][j].g, sizeof(unsigned char), 1, file);
             fread(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
-        for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
-            fseek(file, sizeof(unsigned char), SEEK_CUR);
+        if(width*3%4 !=0){
+            for(int x = 0; x < (4-((width*3)%4)); x++) {//This is for padding based on # of pixels in row
+                fseek(file, sizeof(unsigned char), SEEK_CUR);
+        }
         }
     }
 }
@@ -129,8 +131,11 @@ void writePixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
             fwrite(&pArr[i][j].g, sizeof(unsigned char), 1, file);
             fwrite(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
-        for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
-            fwrite(&zero, sizeof(char ), 1, file);
+        if(width*3%4!=0){
+            for(int x = 0; x < (4-((width*3)%4)); x++) {//This is for padding based on # of pixels in row
+                fwrite(&zero, sizeof(unsigned char ), 1, file);
+            }
         }
+
     }
 }

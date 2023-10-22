@@ -43,7 +43,7 @@ int main() {
 
     image_apply_colorshift(img, 56, 0, 0);
 
-    image_apply_resize(img, .75);
+    image_apply_resize(img, (float).2);
     makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
     makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
 
