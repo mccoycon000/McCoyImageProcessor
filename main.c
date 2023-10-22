@@ -20,6 +20,7 @@ completed all the functionality in the
 //INCLUDES
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "BMPHandler.h"
 #include "Image.h"
 
@@ -37,10 +38,12 @@ int main() {
     readPixelsBMP(file_input, pixels, 152, 152);
     fclose(file_input);
     Image* img = image_create(pixels, 152, 152);
-    image_apply_colorshift(img, 56, 0, 0);
-    //image_apply_bw(img);
 
-    image_apply_resize(img, 0.5);
+    image_apply_bw(img);
+
+    image_apply_colorshift(img, 56, 0, 0);
+
+    image_apply_resize(img, .75);
     makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
     makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
 

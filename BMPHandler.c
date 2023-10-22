@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include "Image.h"
+#include <math.h>
 #include "BMPHandler.h"
 
 
@@ -129,7 +130,7 @@ void writePixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
             fwrite(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
         for(int x = 0; x < ((width*3)%4); x++) {//This is for padding based on # of pixels in row
-            fwrite(zero, sizeof(char ), 1, file);
+            fwrite(&zero, sizeof(char ), 1, file);
         }
     }
 }
