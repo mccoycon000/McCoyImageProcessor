@@ -30,7 +30,10 @@ int main(int argc, char** argv) {
     struct BMP_Header BMP;
     struct DIB_Header DIB;
 
-    char* file_input_name = argv[1];
+    char* file_input_name = "ttt-1.bmp";
+    if(argv[1] != NULL){
+        file_input_name = argv[1];
+    }
     printf("File name: %s\n", file_input_name);
     FILE* file_input = fopen(file_input_name, "rb");
 
