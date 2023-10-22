@@ -77,7 +77,7 @@ void writeDIBHeader(FILE* file, struct DIB_Header* header){
 * @param height: Height of the image that this header is for
 */
 void makeBMPHeader(struct BMP_Header* header, int width, int height){
-    header->size = (sizeof(struct BMP_Header)) + (sizeof(struct DIB_Header)) + (((3*width)+(4-((3*width)%4)))*height);
+    header->size = (int)((sizeof(struct BMP_Header)) + (sizeof(struct DIB_Header)) + (((3*width)+(4-((3*width)%4)))*height));
 }
 /**
 * Make new DIB header based on width and height.Useful for creating a BMP file.

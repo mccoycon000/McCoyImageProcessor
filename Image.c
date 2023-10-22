@@ -27,8 +27,8 @@ Image* image_create(struct Pixel** pArr, int width, int height){
 */
 void image_destroy(Image** img){
 
-    free(img);
-    img = NULL;
+    free(*img);
+    *img = NULL;
 }
 /* Returns a double pointer to the pixel array.
 *
@@ -103,7 +103,7 @@ void image_apply_colorshift(Image* img, int rShift, int gShift, int bShift) {
                 if(img->pArr[i][j].g + gS > 255){
                     img->pArr[i][j].g = 255;
                 }else{
-                    img->pArr[i][j].g = img->pArr[i][j].g + bS;
+                    img->pArr[i][j].g = img->pArr[i][j].g + gS;
                 }
             }
         }
