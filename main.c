@@ -1,15 +1,5 @@
 /**
-* THIS IS NOT A BASE FILE.
-*
-* The following code is a minimal example showing how to apply a blue color shift
-to the ttt.bmp test file using
-* the functionality you will implement in BMPHandler.h and Image.h. It serves as
-an example of the syntax that
-* your implementation should support. This code will not function until you have
-completed all the functionality in the
-* header files.
-*
-* DO NOT SUBMIT THIS FILE WITH YOUR HOMEWORK.
+*This is a completed verison of an BMP image processor. You have to compile and run from comm
 *
 * Completion time: 334 minutes
 *
@@ -85,36 +75,6 @@ int main(int argc, char** argv) {
     }
 
     int c;
-
-
-   /* while((c = getopt(argc, argv, "r:g:b:s:o:w")) != -1){
-
-        printf("2");
-        switch(c){
-            case 'r':
-                printf("rshift");
-                image_apply_colorshift(img, *optarg, 0, 0);
-                break;
-            case 'g':
-                image_apply_colorshift(img, 0, *optarg, 0);
-                break;
-            case'b' :
-                image_apply_colorshift(img, 0, 0, *optarg);
-                break;
-            case 's':
-                image_apply_resize(img, *optarg);
-                break;
-            case 'o':
-                file_output_name = optarg;
-                break;
-            case 'w':
-                image_apply_bw(img);
-                break;
-            default :
-                break;
-        }
-    } */
-
 
     makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
     makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
