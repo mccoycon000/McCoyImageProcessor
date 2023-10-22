@@ -61,7 +61,7 @@ int image_get_height(Image* img){
 void image_apply_bw(Image* img){
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
-            int lum;
+            double lum;
             lum =  (img->pArr[i][j].b*0.114) + (img->pArr[i][j].r*0.299) + (img->pArr[i][j].g*0.587);
             img->pArr[i][j].b = (unsigned char) lum;
             img->pArr[i][j].r = (unsigned char) lum;

@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include "Image.h"
-#include <math.h>
 #include "BMPHandler.h"
 
 
@@ -78,7 +77,7 @@ void writeDIBHeader(FILE* file, struct DIB_Header* header){
 * @param height: Height of the image that this header is for
 */
 void makeBMPHeader(struct BMP_Header* header, int width, int height){
-    header->size = (sizeof(struct BMP_Header)) + (sizeof(struct DIB_Header)) + (((3*width)+((3*width)%4))*height);
+    header->size = (sizeof(struct BMP_Header)) + (sizeof(struct DIB_Header)) + (((3*width)+(4-((3*width)%4)))*height);
 }
 /**
 * Make new DIB header based on width and height.Useful for creating a BMP file.
@@ -90,7 +89,7 @@ void makeBMPHeader(struct BMP_Header* header, int width, int height){
 void makeDIBHeader(struct DIB_Header* header, int width, int height){
     header->height = height;
     header->width = width;
-    header->image_size = (((3*width)+((3*width)%4))*height);
+    header->image_size = (((3*width)+(4-((3*width)%4)))*height);
 
 }
 /**

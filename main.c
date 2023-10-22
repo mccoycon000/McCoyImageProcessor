@@ -20,7 +20,6 @@ completed all the functionality in the
 //INCLUDES
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "BMPHandler.h"
 #include "Image.h"
 
@@ -43,7 +42,7 @@ int main() {
 
     image_apply_colorshift(img, 56, 0, 0);
 
-    image_apply_resize(img, (float).2);
+    image_apply_resize(img, (float)4.221);
     makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
     makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
 
@@ -52,6 +51,8 @@ int main() {
     writeDIBHeader(file_output, &DIB);
     writePixelsBMP(file_output, image_get_pixels(img), image_get_width(img),
                    image_get_width(img));
+
+
     image_destroy(img);
     fclose(file_output);
 //END - HEADER FUNCTIONALITY MINIMAL EXAMPLE (DO NOT SUBMIT)
