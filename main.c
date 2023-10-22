@@ -1,10 +1,13 @@
 /**
-*This is a completed verison of an BMP image processor. You have to compile and run from comm
+*This is a completed verison of an BMP(24bpp format) image processor. You have to compile and run from command line.
+ * First argument must be the file name of image to process
+ * Optional arguments are -r,-b,-g, followed by shift values,
+ * -o followed by output file name, -s followed by float to scale by
 *
-* Completion time: 334 minutes
+* Completion time: 6hrs
 *
-* @author Vatricia Edgar, Ruben Acuna
-* @version 1.0
+* @author Connor McCoy, Acuna
+* @version 10.22.23
 */
 ////////////////////////////////////////////////////////////////////////////////
 //INCLUDES
