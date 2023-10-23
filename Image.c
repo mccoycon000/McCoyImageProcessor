@@ -59,10 +59,13 @@ int image_get_height(Image* img){
 * @param img: the image.
 */
 void image_apply_bw(Image* img){
+    //Traverse the pixel array in order to change value of each pixel
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
             double lum;
+            //Find the gray scale value based on luminosity equation
             lum =  (img->pArr[i][j].b*0.114) + (img->pArr[i][j].r*0.299) + (img->pArr[i][j].g*0.587);
+            //Set each pixel to the same val found through lum eq
             img->pArr[i][j].b = (unsigned char) lum;
             img->pArr[i][j].r = (unsigned char) lum;
             img->pArr[i][j].g = (unsigned char) lum;
@@ -83,25 +86,31 @@ void image_apply_colorshift(Image* img, int rShift, int gShift, int bShift) {
     unsigned char rS = rShift;
     unsigned char gS = gShift;
     unsigned char bS = bShift;
+    //Highest value an rgb value can be is 255
+    int highestValue = 255;
+    //Traverse through the pixel array shifting based on given values
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
+            //Only shift a value if its be given a value to shift
             if(bShift > 0){
-                if(img->pArr[i][j].b + bS > 255){
-                    img->pArr[i][j].b = 255;
+                //If value given is higher than highest value just cap value
+                if(img->pArr[i][j].b + bS > highestValue){
+                    img->pArr[i][j].b = highestValue;
                 }else{
+                    //Shift based on given value
                     img->pArr[i][j].b = img->pArr[i][j].b + bS;
                 }
             }
             if(rShift > 0){
-                if(img->pArr[i][j].r + rS > 255){
-                    img->pArr[i][j].r = 255;
+                if(img->pArr[i][j].r + rS > highestValue){
+                    img->pArr[i][j].r = highestValue;
                 }else{
                     img->pArr[i][j].r = img->pArr[i][j].r + rS;
                 }
             }
             if(gShift > 0){
-                if(img->pArr[i][j].g + gS > 255){
-                    img->pArr[i][j].g = 255;
+                if(img->pArr[i][j].g + gS > highestValue){
+                    img->pArr[i][j].g = highestValue;
                 }else{
                     img->pArr[i][j].g = img->pArr[i][j].g + gS;
                 }
@@ -118,43 +127,48 @@ image will be
 */
 void image_apply_resize(Image* img, float factor){
 
+    //Find the new height and width based on resize factor
     int newWidth = (int)((float)img->width * factor);
     int newHeight = (int)((float)img->height * factor);
 
-    struct Pixel** pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * newHeight);
+    //Allocate memory for a new temp pixel array to copy values corresponding pixels to
+    struct Pixel** temp_pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * newHeight);
     for (int p = 0; p < newWidth; p++) {
-        pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
+        temp_pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
     }
-
-
+    //Update img height and width
     img->height = newHeight;
     img->width = newWidth;
 
+    //Traverse through new array and copy corresponding value form old array into the new one
+    //Pixel at the midpoint of new array should be the same as the pixel in the midpoint of the old one
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
 
-            pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
+            temp_pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
         }
     }
 
-
+    //Re allocate space for the old img array so its size is correct based on factor
     img->pArr = (struct Pixel**) realloc(img->pArr, (sizeof(struct Pixel*) * newHeight));
     for (int p = 0; p < newWidth; p++) {
         img->pArr[p] = (struct Pixel*)realloc(img->pArr[p],(sizeof(struct Pixel) * newWidth));
     }
 
+    //Copy values back into the img pixel array
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
-            img->pArr[i][j] = pixels[i][j];
+            img->pArr[i][j] = temp_pixels[i][j];
         }
     }
 
+    //Free memory from the temp pixel array
     for (int i = 0; i < img->height; i++) {
-        free(pixels[i]);
+        free(temp_pixels[i]);
     }
 
-    free(pixels);
-    pixels = NULL;
+    free(temp_pixels);
+    temp_pixels = NULL;
 
 
 

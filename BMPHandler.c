@@ -87,9 +87,13 @@ void makeBMPHeader(struct BMP_Header* header, int width, int height){
 * @param height: Height of the image that this header is for
 */
 void makeDIBHeader(struct DIB_Header* header, int width, int height){
+    //Calculate the size of each pixel
+    int pixelSize = sizeof(struct Pixel);
+    //Find padding based on pixel size and width. Padding will give number to add to each row to make it a multiple of 4
+    int padding = (4-((width * pixelSize) % 4))%4;
     header->height = height;
     header->width = width;
-    header->image_size = (((3*width)+((4-((3*width)%4))%4))*height);
+    header->image_size = (((pixelSize*width)+padding)*height);
 
 }
 /**
@@ -101,14 +105,20 @@ void makeDIBHeader(struct DIB_Header* header, int width, int height){
 * @param height: Height of the pixel array of this image
 */
 void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
+    int pixelSize = sizeof(struct Pixel);
+    //Traverse through the pixel array
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             fread(&pArr[i][j].b, sizeof(unsigned char), 1, file);
             fread(&pArr[i][j].g, sizeof(unsigned char), 1, file);
             fread(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
-        if((width*3)%4 !=0){
-            for(int x = 0; x < (4-((width*3)%4)); x++) {//This is for padding based on # of pixels in row
+        //Find number to pad each row by
+        int padding = (width*pixelSize)%4;
+        //Only pad each row if the row isnt already a multiple of 4
+        if(padding !=0){
+            //Have to subtract padding from 4 because it is added to the row not taken away from it
+            for(int x = 0; x < (4-padding); x++) {
                 fseek(file, sizeof(unsigned char), SEEK_CUR);
         }
         }
@@ -123,15 +133,22 @@ void readPixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
 * @param height: Height of the pixel array of this image
 */
 void writePixelsBMP(FILE* file, struct Pixel** pArr, int width, int height){
+    int pixelSize = sizeof(struct Pixel);
+    //Char to use for adding to file for padding
     char* zero = 0;
+    //Traverse through pixel array and write it to the file
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             fwrite(&pArr[i][j].b, sizeof(unsigned char), 1, file);
             fwrite(&pArr[i][j].g, sizeof(unsigned char), 1, file);
             fwrite(&pArr[i][j].r, sizeof(unsigned char), 1, file);
         }
-        if((width*3)%4!=0){
-            for(int x = 0; x < (4-((width*3)%4)); x++) {//This is for padding based on # of pixels in row
+        //Padding based on width and pixel size
+        int padding = (width*pixelSize)%4;
+        //Only pad if its not already a multiple of 4
+        if(padding !=0){
+            //Subtract padding from 4 so we can add it to the end of the row properly
+            for(int x = 0; x < (4-padding); x++) {
                 fwrite(&zero, sizeof(unsigned char ), 1, file);
             }
         }
