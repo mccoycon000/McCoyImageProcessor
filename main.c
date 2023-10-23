@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     Image* img = image_create(pixels, DIB.width, DIB.height);
 
     int i = 2;
-    char *file_output_name = "test_output";
+    char *file_output_name = strcat(file_input_name, "_copy");
 
     while (argv[i] != NULL){
 
