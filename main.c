@@ -19,7 +19,7 @@
 #include "Image.h"
 
 int main(int argc, char** argv) {
-    //START - HEADER FUNCTIONALITY MINIMAL EXAMPLE (DO NOT SUBMIT)
+
     struct BMP_Header BMP;
     struct DIB_Header DIB;
 
@@ -91,5 +91,5 @@ int main(int argc, char** argv) {
 
     image_destroy(&img);
     fclose(file_output);
-//END - HEADER FUNCTIONALITY MINIMAL EXAMPLE (DO NOT SUBMIT)
+
 }
