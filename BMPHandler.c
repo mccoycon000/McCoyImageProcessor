@@ -89,7 +89,7 @@ void makeBMPHeader(struct BMP_Header* header, int width, int height){
 void makeDIBHeader(struct DIB_Header* header, int width, int height){
     header->height = height;
     header->width = width;
-    header->image_size = (((3*width)+(4-((3*width)%4)))*height);
+    header->image_size = (((3*width)+((4-((3*width)%4))%4))*height);
 
 }
 /**
