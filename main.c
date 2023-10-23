@@ -45,10 +45,11 @@ int main(int argc, char** argv) {
     fclose(file_input);
     Image* img = image_create(pixels, DIB.width, DIB.height);
 
-    int i = 2;
-    file_input_name[strlen(file_input_name)-4] = '\0';
-    char *file_output_name = strcat(file_input_name, "_copy.bmp");
+    int i = 0;
 
+    int changedName = 0;
+
+    char* file_output_name;
     while (argv[i] != NULL){
 
         if (strcmp(argv[i], "-r") == 0){
@@ -72,10 +73,14 @@ int main(int argc, char** argv) {
         }
         if (strcmp(argv[i], "-o") == 0){
             file_output_name = argv[i+1];
+            changedName = 1;
         }
-
-
         i++;
+    }
+
+    if(changedName ==0){
+        file_input_name[strlen(file_input_name)-4] = '\0';
+        file_output_name = strcat(file_input_name, "_copy.bmp");
     }
 
     int c;
