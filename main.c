@@ -3,6 +3,7 @@
  * First argument must be the file name of image to process
  * Optional arguments are -r,-b,-g, followed by shift values,
  * -o followed by output file name, -s followed by float to scale by
+ * -w will gray scale image.
 *
 * Completion time: 6hrs
 *
