@@ -46,7 +46,8 @@ int main(int argc, char** argv) {
     Image* img = image_create(pixels, DIB.width, DIB.height);
 
     int i = 2;
-    char *file_output_name = strcat(file_input_name, "_copy");
+    file_input_name[strlen(file_input_name)-4] = '\0';
+    char *file_output_name = strcat(file_input_name, "_copy.bmp");
 
     while (argv[i] != NULL){
 
