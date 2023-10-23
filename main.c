@@ -27,7 +27,6 @@ int main(int argc, char** argv) {
     if(argv[1] != NULL){
         file_input_name = argv[1];
     }
-    printf("File name: %s\n", file_input_name);
     FILE* file_input = fopen(file_input_name, "rb");
 
 

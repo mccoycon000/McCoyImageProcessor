@@ -149,6 +149,10 @@ void image_apply_resize(Image* img, float factor){
         }
     }
 
+    for (int i = 0; i < img->height; i++) {
+        free(pixels[i]);
+    }
+
     free(pixels);
     pixels = NULL;
 
