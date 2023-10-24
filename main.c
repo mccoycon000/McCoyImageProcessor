@@ -63,18 +63,31 @@ int main(int argc, char** argv) {
     char* file_output_name;
     //Parse through command line arguments
     while (argv[i] != NULL){
+        char *endptr;
         //Apply color shift
         if (strcmp(argv[i], "-r") == 0){
-            int shift = (int)atof(argv[i+1]);
-            image_apply_colorshift(img, shift, 0, 0);
+            int shift = (int)strtol(argv[i+1], &endptr, 10);
+            if(*endptr == '\0'){
+                image_apply_colorshift(img, shift, 0, 0);
+            }else{
+                printf("Invalid color shift value, please enter an integer \n");
+            }
         }
         if (strcmp(argv[i], "-g") == 0){
-            int shift = (int)atof(argv[i+1]);
-            image_apply_colorshift(img, 0, shift, 0);
+            int shift = (int)strtol(argv[i+1], &endptr, 10);
+            if(*endptr == '\0'){
+                image_apply_colorshift(img, 0, shift, 0);
+            }else{
+                printf("Invalid color shift value, please enter an integer \n");
+            }
         }
         if (strcmp(argv[i], "-b") == 0){
-            int shift = (int)atof(argv[i+1]);
-            image_apply_colorshift(img, 0, 0, shift);
+            int shift = (int)strtol(argv[i+1], &endptr, 10);
+            if(*endptr == '\0'){
+                image_apply_colorshift(img, 0, 0, shift);
+            }else{
+                printf("Invalid color shift value, please enter an integer \n");
+            }
         }
         //Apply gray scale
         if (strcmp(argv[i], "-w") == 0){
@@ -82,8 +95,12 @@ int main(int argc, char** argv) {
         }
         //Apply resize
         if (strcmp(argv[i], "-s") == 0){
-            float shift = atof(argv[i+1]);
-            image_apply_resize(img, shift) ;
+            float shift = strtof(argv[i+1], &endptr);
+            if(*endptr == '\0'){
+                image_apply_resize(img, shift) ;
+            }else{
+                printf("Invalid value for factor, please enter a float value \n");
+            }
         }
         //Update file output name based on name given through command line
         if (strcmp(argv[i], "-o") == 0){
