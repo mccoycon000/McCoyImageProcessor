@@ -66,6 +66,10 @@ int main(int argc, char** argv) {
         char *endptr;
         //Apply color shift
         if (strcmp(argv[i], "-r") == 0){
+            if(argv[i+1] == NULL){
+                printf("Please enter integer value for color shift following -r\n");
+                break;
+            }
             int shift = (int)strtol(argv[i+1], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, shift, 0, 0);
@@ -74,6 +78,10 @@ int main(int argc, char** argv) {
             }
         }
         if (strcmp(argv[i], "-g") == 0){
+            if(argv[i+1] == NULL){
+                printf("Please enter integer value for color shift following -g\n");
+                break;
+            }
             int shift = (int)strtol(argv[i+1], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, shift, 0);
@@ -82,6 +90,10 @@ int main(int argc, char** argv) {
             }
         }
         if (strcmp(argv[i], "-b") == 0){
+            if(argv[i+1] == NULL){
+                printf("Please enter integer value for color shift following -b\n");
+                break;
+            }
             int shift = (int)strtol(argv[i+1], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, 0, shift);
@@ -95,11 +107,15 @@ int main(int argc, char** argv) {
         }
         //Apply resize
         if (strcmp(argv[i], "-s") == 0){
+            if(argv[i+1] == NULL){
+                printf("Please enter float value for resize factor following -s\n");
+                break;
+            }
             float shift = strtof(argv[i+1], &endptr);
             if(*endptr == '\0'){
                 image_apply_resize(img, shift) ;
             }else{
-                printf("Invalid value for factor, please enter a float value \n");
+                printf("Invalid value for factor, please enter a valid float value \n");
             }
         }
         //Update file output name based on name given through command line
