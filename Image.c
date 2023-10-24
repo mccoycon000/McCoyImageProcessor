@@ -83,38 +83,40 @@ height.
 * @param bShift: the shift value of color b shift
 */
 void image_apply_colorshift(Image* img, int rShift, int gShift, int bShift) {
-    unsigned char rS = rShift;
-    unsigned char gS = gShift;
-    unsigned char bS = bShift;
-    //Highest value an rgb value can be is 255
-    int highestValue = 255;
+    //Highest value a rgb value can be is 255
+    unsigned char highestValue = 255;
+    unsigned char lowestValue = 0;
     //Traverse through the pixel array shifting based on given values
     for (int i = 0; i < img->height; i++) {
         for (int j = 0; j < img->width; j++) {
-            //Only shift a value if its be given a value to shift
-            if(bShift > 0){
-                //If value given is higher than highest value just cap value
-                if(img->pArr[i][j].b + bS > highestValue){
-                    img->pArr[i][j].b = highestValue;
-                }else{
-                    //Shift based on given value
-                    img->pArr[i][j].b = img->pArr[i][j].b + bS;
-                }
+            //If value given is higher or lower than the highest/lowest value clap to the highest/lowest value
+            if(img->pArr[i][j].b  + bShift > highestValue){
+                img->pArr[i][j].b = highestValue;
             }
-            if(rShift > 0){
-                if(img->pArr[i][j].r + rS > highestValue){
-                    img->pArr[i][j].r = highestValue;
-                }else{
-                    img->pArr[i][j].r = img->pArr[i][j].r + rS;
-                }
+            else if(img->pArr[i][j].b + bShift < lowestValue){
+                img->pArr[i][j].b = lowestValue;
             }
-            if(gShift > 0){
-                if(img->pArr[i][j].g + gS > highestValue){
-                    img->pArr[i][j].g = highestValue;
-                }else{
-                    img->pArr[i][j].g = img->pArr[i][j].g + gS;
+            else{
+                //Shift based on given value
+                img->pArr[i][j].b = img->pArr[i][j].b + bShift;
                 }
+            if(img->pArr[i][j].r  +  rShift > highestValue){
+                img->pArr[i][j].r =  highestValue;
             }
+            else if(img->pArr[i][j].r  + rShift < lowestValue){
+                img->pArr[i][j].r = lowestValue;
+            }
+            else{
+                img->pArr[i][j].r = img->pArr[i][j].r +  rShift;
+                }
+            if(img->pArr[i][j].g +  gShift > highestValue){
+                img->pArr[i][j].g =  highestValue;
+            }
+            else if(img->pArr[i][j].g +  gShift < lowestValue){
+                img->pArr[i][j].g =  lowestValue;
+            }
+            else{
+                img->pArr[i][j].g = img->pArr[i][j].g + gShift;}
         }
     }
 }

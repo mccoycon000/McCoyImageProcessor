@@ -27,8 +27,12 @@ int main(int argc, char** argv) {
     //Default file name so program compiles from IDE
     char* file_input_name = "ttt-1.bmp";
     //Parse file name given through command line
-    if(argv[1] != NULL){
-        file_input_name = argv[1];
+
+    file_input_name = argv[1];
+    //Checking if file entered exists
+    if (access(file_input_name, F_OK) != 0) {
+        printf("That file doesn't exist, please enter correct file name as first argument\n");
+        exit(1);
     }
     //Open file given from command line
     FILE* file_input = fopen(file_input_name, "rb");
