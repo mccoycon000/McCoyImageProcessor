@@ -63,16 +63,20 @@ int main(int argc, char** argv) {
     char* file_output_name;
     //Parse through command line arguments
     while (argv[i] != NULL){
+        //For error checking, endptr stores last value of string parsed by strtol.
         char *endptr;
+        //If a valid command is enter valid will be set to 1.
+        int valid = 0;
         //Apply color shift
         if (strcmp(argv[i], "-r") == 0){
+            valid = 1;
             //If there wasn't a value entered follwing -r -b -g send error message
             if(argv[i+1] == NULL){
                 printf("Please enter integer value for color shift following -r\n");
                 break;
             }
-            int shift = (int)strtol(argv[i+1], &endptr, 10);
-            //If an non integer was entered send error message
+            int shift = (int)strtol(argv[++i], &endptr, 10);
+            //If an non integer was entered send error message. If endptr is '0' that indicates strtol only incountered numbers
             if(*endptr == '\0'){
                 image_apply_colorshift(img, shift, 0, 0);
             }else{
@@ -80,11 +84,12 @@ int main(int argc, char** argv) {
             }
         }
         if (strcmp(argv[i], "-g") == 0){
+            valid = 1;
             if(argv[i+1] == NULL){
                 printf("Please enter integer value for color shift following -g\n");
                 break;
             }
-            int shift = (int)strtol(argv[i+1], &endptr, 10);
+            int shift = (int)strtol(argv[++i], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, shift, 0);
             }else{
@@ -92,11 +97,12 @@ int main(int argc, char** argv) {
             }
         }
         if (strcmp(argv[i], "-b") == 0){
+            valid = 1;
             if(argv[i+1] == NULL){
                 printf("Please enter integer value for color shift following -b\n");
                 break;
             }
-            int shift = (int)strtol(argv[i+1], &endptr, 10);
+            int shift = (int)strtol(argv[++i], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, 0, shift);
             }else{
@@ -105,28 +111,33 @@ int main(int argc, char** argv) {
         }
         //Apply gray scale
         if (strcmp(argv[i], "-w") == 0){
+            valid = 1;
             image_apply_bw(img);
         }
         //Apply resize
         if (strcmp(argv[i], "-s") == 0){
+            valid = 1;
             //Same as for color shift, if there wasn't a value enter after resize send error message
             if(argv[i+1] == NULL){
-                printf("Please enter float value for resize factor following -s\n");
+                printf("Please enter positive float value for resize factor following -s\n");
                 break;
             }
-            float shift = strtof(argv[i+1], &endptr);
-            if(*endptr == '\0'){
+            float shift = strtof(argv[++i], &endptr);
+            //Make sure that a correct float value was entered
+            if(*endptr == '\0' && shift > 0){
                 image_apply_resize(img, shift) ;
             }else{
-                printf("Invalid value for factor, please enter a valid float value \n");
+                printf("Invalid value for resize factor, please enter a positive non-zero float value \n");
             }
         }
         //Update file output name based on name given through command line
         if (strcmp(argv[i], "-o") == 0){
-            file_output_name = argv[i+1];
+            valid = 1;
+            file_output_name = argv[++i];
             changedName = 1;
         }
-        else{
+        //If an invalid command in entered send message listing off correct commands to user
+        if(valid == 0){
             printf("'%s' Is not a valid command!\nEnter:\n-w, to gray scale image.\n"
                    "-r,-b, or -g followed by integer for color shift.\n"
                    "-s followed by positive float value for resizing.\n"
