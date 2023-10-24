@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     Image* img = image_create(pixels, DIB.width, DIB.height);
 
     //Value for indexing arg array
-    int i = 0;
+    int i = 2;
     //Keep track of whether user set a name for output file, which is optional
     int changedName = 0;
 
@@ -66,11 +66,13 @@ int main(int argc, char** argv) {
         char *endptr;
         //Apply color shift
         if (strcmp(argv[i], "-r") == 0){
+            //If there wasn't a value entered follwing -r -b -g send error message
             if(argv[i+1] == NULL){
                 printf("Please enter integer value for color shift following -r\n");
                 break;
             }
             int shift = (int)strtol(argv[i+1], &endptr, 10);
+            //If an non integer was entered send error message
             if(*endptr == '\0'){
                 image_apply_colorshift(img, shift, 0, 0);
             }else{
@@ -107,6 +109,7 @@ int main(int argc, char** argv) {
         }
         //Apply resize
         if (strcmp(argv[i], "-s") == 0){
+            //Same as for color shift, if there wasn't a value enter after resize send error message
             if(argv[i+1] == NULL){
                 printf("Please enter float value for resize factor following -s\n");
                 break;
@@ -122,6 +125,13 @@ int main(int argc, char** argv) {
         if (strcmp(argv[i], "-o") == 0){
             file_output_name = argv[i+1];
             changedName = 1;
+        }
+        else{
+            printf("'%s' Is not a valid command!\nEnter:\n-w, to gray scale image.\n"
+                   "-r,-b, or -g followed by integer for color shift.\n"
+                   "-s followed by positive float value for resizing.\n"
+                   "-o followed by desired file name to set output file name\n", argv[i]);
+            break;
         }
         i++;
     }
