@@ -5,3 +5,9 @@
 1	46	1698016944401906233	CMakeFiles/McCoyImageProcessor.dir/main.c.o	d1c575a0bc3d603b
 1	48	1698017466601515768	CMakeFiles/McCoyImageProcessor.dir/main.c.o	d1c575a0bc3d603b
 49	84	1698017466637516183	McCoyImageProcessor	caf141e8a7509857
+0	40	1698191982069755699	CMakeFiles/McCoyImageProcessor.dir/BMPHandler.c.o	2621f40931471a5a
+0	45	1698191982073755959	CMakeFiles/McCoyImageProcessor.dir/Image.c.o	6d14550fb55eb406
+0	52	1698191982081756480	CMakeFiles/McCoyImageProcessor.dir/main.c.o	d1c575a0bc3d603b
+52	78	1698191982101757781	McCoyImageProcessor	caf141e8a7509857
+0	41	1698195022831713724	CMakeFiles/McCoyImageProcessor.dir/main.c.o	d1c575a0bc3d603b
+41	76	1698195022863714620	McCoyImageProcessor	caf141e8a7509857

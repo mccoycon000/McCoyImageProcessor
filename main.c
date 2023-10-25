@@ -5,7 +5,7 @@
  * -o followed by output file name, -s followed by float to scale by
  * -w will gray scale image.
 *
-* Completion time: 6hrs
+* Completion time: 6hrs + 6hrs bug fixes :)
 *
 * @author Connor McCoy, Acuna
 * @version 10.22.23
@@ -32,6 +32,12 @@ int main(int argc, char** argv) {
     //Checking if file entered exists
     if (access(file_input_name, F_OK) != 0) {
         printf("That file doesn't exist, please enter correct file name as first argument\n");
+        exit(1);
+    }
+
+    //Checking if file type is correct
+    if(strcmp(&(file_input_name[strlen(file_input_name)-4]), ".bmp") != 0){
+        printf("Input file must be of type .bmp\n");
         exit(1);
     }
     //Open file given from command line
@@ -61,60 +67,70 @@ int main(int argc, char** argv) {
     int changedName = 0;
 
     char* file_output_name;
-    //Parse through command line arguments
+
+    //Parse through command line arguments//////////////////////////////////////////////////////////////////////////////
     while (argv[i] != NULL){
+
         //For error checking, endptr stores last value of string parsed by strtol.
         char *endptr;
-        //If a valid command is enter valid will be set to 1.
+
+        //If a valid command is entered valid will be set to 1.
         int valid = 0;
-        //Apply color shift
+
+        //Apply color shift/////////////////////////////////////////////////////////////////////////////////////////////
         if (strcmp(argv[i], "-r") == 0){
             valid = 1;
             //If there wasn't a value entered follwing -r -b -g send error message
             if(argv[i+1] == NULL){
-                printf("Please enter integer value for color shift following -r\n");
+                printf("Please enter a valid integer value for color shift following -r\n");
                 break;
             }
+            //Use strtol to confirm a correct value was entered to color shift by
             int shift = (int)strtol(argv[++i], &endptr, 10);
-            //If an non integer was entered send error message. If endptr is '0' that indicates strtol only incountered numbers
+            //If a non integer was entered send error message.
+            // If endptr is '0' that indicates strtol only encountered numbers
             if(*endptr == '\0'){
                 image_apply_colorshift(img, shift, 0, 0);
             }else{
-                printf("Invalid color shift value, please enter an integer \n");
+                printf("Invalid color shift value, please enter a valid integer following -r \n");
             }
         }
+
         if (strcmp(argv[i], "-g") == 0){
             valid = 1;
             if(argv[i+1] == NULL){
-                printf("Please enter integer value for color shift following -g\n");
+                printf("Please enter a valid integer value for color shift following -g\n");
                 break;
             }
             int shift = (int)strtol(argv[++i], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, shift, 0);
             }else{
-                printf("Invalid color shift value, please enter an integer \n");
+                printf("Invalid color shift value, please enter a valid integer following -g\n");
             }
         }
+
         if (strcmp(argv[i], "-b") == 0){
             valid = 1;
             if(argv[i+1] == NULL){
-                printf("Please enter integer value for color shift following -b\n");
+                printf("Please enter a valid integer value for color shift following -b\n");
                 break;
             }
             int shift = (int)strtol(argv[++i], &endptr, 10);
             if(*endptr == '\0'){
                 image_apply_colorshift(img, 0, 0, shift);
             }else{
-                printf("Invalid color shift value, please enter an integer \n");
+                printf("Invalid color shift value, please enter a valid integer following -b\n");
             }
         }
-        //Apply gray scale
+
+        //Apply gray scale//////////////////////////////////////////////////////////////////////////////////////////////
         if (strcmp(argv[i], "-w") == 0){
             valid = 1;
             image_apply_bw(img);
         }
-        //Apply resize
+
+        //Apply resize//////////////////////////////////////////////////////////////////////////////////////////////////
         if (strcmp(argv[i], "-s") == 0){
             valid = 1;
             //Same as for color shift, if there wasn't a value enter after resize send error message
@@ -130,12 +146,19 @@ int main(int argc, char** argv) {
                 printf("Invalid value for resize factor, please enter a positive non-zero float value \n");
             }
         }
-        //Update file output name based on name given through command line
+
+        //Update file output name///////////////////////////////////////////////////////////////////////////////////////
         if (strcmp(argv[i], "-o") == 0){
             valid = 1;
             file_output_name = argv[++i];
+            //Making sure output file type is labeled correctly
+            if(strcmp(&(file_output_name[strlen(file_output_name)-4]), ".bmp") != 0){
+                printf("Output file must be of type .bmp\n");
+                exit(1);
+            }
             changedName = 1;
         }
+
         //If an invalid command in entered send message listing off correct commands to user
         if(valid == 0){
             printf("'%s' Is not a valid command!\nEnter:\n-w, to gray scale image.\n"
@@ -146,22 +169,28 @@ int main(int argc, char** argv) {
         }
         i++;
     }
+
     //If output name wasn't given through command line make it default to original name + _copy.bmp
     if(changedName ==0){
         file_input_name[strlen(file_input_name)-4] = '\0';
         file_output_name = strcat(file_input_name, "_copy.bmp");
     }
+
     //Update the headers
     makeBMPHeader(&BMP, image_get_width(img), image_get_height(img));
     makeDIBHeader(&DIB, image_get_width(img), image_get_height(img));
+
     //Open output file for writing
     FILE* file_output = fopen(file_output_name, "wb");
+
     //Write headers to file
     writeBMPHeader(file_output, &BMP);
     writeDIBHeader(file_output, &DIB);
+
     //Right pixel array to file
     writePixelsBMP(file_output, image_get_pixels(img), image_get_width(img),
                    image_get_width(img));
+
     //Free image memory
     image_destroy(&img);
     fclose(file_output);
