@@ -191,6 +191,14 @@ int main(int argc, char** argv) {
     writePixelsBMP(file_output, image_get_pixels(img), image_get_width(img),
                    image_get_width(img));
 
+    //Free memory from pixel array
+    for (int p = 0; p < img->height; p++) {
+        free(img->pArr[p]);
+    }
+
+    free(img->pArr);
+    img->pArr = NULL;
+
     //Free image memory
     image_destroy(&img);
     fclose(file_output);
