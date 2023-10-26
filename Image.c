@@ -138,8 +138,6 @@ void image_apply_resize(Image* img, float factor){
     for (int p = 0; p < newWidth; p++) {
         new_pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
     }
-    //Update img height and width
-
 
     //Traverse through new array and copy corresponding value form old array into the new one
     //Pixel at the midpoint of new array should be the same as the pixel in the midpoint of the old one
