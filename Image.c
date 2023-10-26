@@ -139,39 +139,28 @@ void image_apply_resize(Image* img, float factor){
         temp_pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
     }
     //Update img height and width
-    img->height = newHeight;
-    img->width = newWidth;
+
 
     //Traverse through new array and copy corresponding value form old array into the new one
     //Pixel at the midpoint of new array should be the same as the pixel in the midpoint of the old one
-    for (int i = 0; i < img->height; i++) {
-        for (int j = 0; j < img->width; j++) {
+    for (int i = 0; i < newHeight; i++) {
+        for (int j = 0; j < newWidth; j++) {
 
             temp_pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
         }
     }
 
-    //Re allocate space for the old img array so its size is correct based on factor
-    img->pArr = (struct Pixel**) realloc(img->pArr, (sizeof(struct Pixel*) * newHeight));
-    for (int p = 0; p < newWidth; p++) {
-        img->pArr[p] = (struct Pixel*)realloc(img->pArr[p],(sizeof(struct Pixel) * newWidth));
-    }
-
-    //Copy values back into the img pixel array
+    //Free memory from the former pixel array
     for (int i = 0; i < img->height; i++) {
-        for (int j = 0; j < img->width; j++) {
-            img->pArr[i][j] = temp_pixels[i][j];
-        }
+        free(img->pArr[i]);
     }
 
-    //Free memory from the temp pixel array
-    for (int i = 0; i < img->height; i++) {
-        free(temp_pixels[i]);
-    }
+    free(img->pArr);
 
-    free(temp_pixels);
-    temp_pixels = NULL;
+    img->height = newHeight;
+    img->width = newWidth;
 
+    img->pArr = temp_pixels;
 
 
 }
