@@ -134,9 +134,9 @@ void image_apply_resize(Image* img, float factor){
     int newHeight = (int)((float)img->height * factor);
 
     //Allocate memory for a new temp pixel array to copy values corresponding pixels to
-    struct Pixel** temp_pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * newHeight);
+    struct Pixel** new_pixels = (struct Pixel**)malloc(sizeof(struct Pixel*) * newHeight);
     for (int p = 0; p < newWidth; p++) {
-        temp_pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
+        new_pixels[p] = (struct Pixel*)malloc(sizeof(struct Pixel) * newWidth);
     }
     //Update img height and width
 
@@ -146,7 +146,7 @@ void image_apply_resize(Image* img, float factor){
     for (int i = 0; i < newHeight; i++) {
         for (int j = 0; j < newWidth; j++) {
 
-            temp_pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
+            new_pixels[i][j] = img->pArr[(int)((float)i/factor)][(int)((float)j/factor)]; //Just divide
         }
     }
 
@@ -156,11 +156,11 @@ void image_apply_resize(Image* img, float factor){
     }
 
     free(img->pArr);
-
+    //Update image with new info
     img->height = newHeight;
     img->width = newWidth;
-
-    img->pArr = temp_pixels;
+    //Set image array to new array.
+    img->pArr = new_pixels;
 
 
 }
