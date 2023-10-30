@@ -151,6 +151,7 @@ void image_apply_resize(Image* img, float factor){
     //Free memory from the former pixel array
     for (int i = 0; i < img->height; i++) {
         free(img->pArr[i]);
+        img->pArr[i] = NULL;
     }
 
     free(img->pArr);
