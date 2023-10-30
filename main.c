@@ -194,6 +194,7 @@ int main(int argc, char** argv) {
     //Free memory from pixel array
     for (int p = 0; p < img->height; p++) {
         free(img->pArr[p]);
+        img->pArr[p] = NULL;
     }
 
     free(img->pArr);
